@@ -111,7 +111,7 @@ Wrong:
 Right:
 ```
 select * from "measurements"
-select "tag1","tag2" from "measurements"
+select "tag1","tag2","value1" from "measurements"
 select * from "measurements" where "tag1" = 'good'
 ```
 
