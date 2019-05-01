@@ -95,7 +95,26 @@ time                tag1 tag2 value1 value2 value3
 1556731682561055307 good      123           345
 ```
 
-The key to understanding the REST interface is that it encapsulates the InfluxDB query language which is explained in https://docs.influxdata.com/influxdb/v1.7/query_language/data_exploration/ with examples.
+The key to understanding the REST interface is that it encapsulates the InfluxDB query language which is explained in https://docs.influxdata.com/influxdb/v1.7/query_language/data_exploration/ with examples. As said, it is probably easiest to get something running from the command line first. The query language is somewhat opinionated:
 
-The REST interface works well for shell scripts. There are bindings to different programming languages, like Python (https://pypi.org/project/influxdb/).
+Wrong:
+```
+(1) select * from measurements
+(2) select "tag1","tag2" from "measurements"
+(3) select * from "measurements" where "tag1" = "good"
+(4) select * from "measurements" where 'tag1' = "good"
+(5) select * from "measurements" where tag1 = "good"
+```
+
+(1) is wrong because measurements is a keyword. (2) does not have a value in the query. (3)-(5) have wrong quotation. 
+
+Right:
+```
+select * from "measurements"
+select "tag1","tag2" from "measurements"
+select * from "measurements" where "tag1" = 'good'
+```
+
+
+The REST interface of course only works for shell scripts. There are bindings to different programming languages, like Python (https://pypi.org/project/influxdb/). Using a language binding requires understanding the basic logic of InfluxDB, which is easier to grasp with the command line to test with.
 
