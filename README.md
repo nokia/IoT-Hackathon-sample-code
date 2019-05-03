@@ -4,7 +4,7 @@ This repository provides examples and instructions for the participants of Nokia
 
 ## Challenge
 
-The challenge is to create example demos of new digital services and business opportunities made possible by LuxTurrim5G and μMEC, for a real smart city. The teams are encouraged to come up with services and/or APIs that they consider beneficial as additions to the mobile network, to support the new digital service.
+The challenge is to create example demos of new digital services and business opportunities made possible by [LuxTurrim5G](https://www.luxturrim5g.com/) and μMEC, for a real smart city. The teams are encouraged to come up with services and/or APIs that they consider beneficial as additions to the mobile network, to support the new digital service.
 
 The following aspects are valued when choosing the winner:
 1. Freshness of idea
