@@ -1,0 +1,72 @@
+access:
+
+airsense@192.168.1.78 /// aiPh2eim
+debian@192.168.1.132 /// debian
+debian@192.168.1.73 /// debian
+debian@192.168.1.154 /// debian
+debian@192.168.1.79 /// debian
+
+influxdb ruuvi measurements
+databases: ruuvi1-ruuvi5
+measurements as ruuvi_measurements
+
+Example query
+$ influx
+> use ruuvi1
+> select * from ruuvi_measurements
+
+===========================
+CROSS COMPILE CODE FOR ARM|
+===========================
+$ docker run -ti --privileged debian /bin/bash
+
+# export http_proxy=http://10.158.100.1:8080
+# export https_proxy=http://10.158.100.1:8080
+# apt-get update
+# apt-get install apt-rdepends
+
+// Install cross-compiler
+# dpkg --add-architecture armhf
+# apt-get update
+# apt-get install crossbuild-essential-armhf
+
+// Create sysroot with build dependencies that we want to use
+# mkdir tmp
+# cd tmp
+# apt-get download libboost-thread-dev:armhf
+# for PKG in $(apt-rdepends libboost-thread-dev:armhf 2> /dev/null |grep Depends: |cut -d ' ' -f 4); do apt-get download $PKG:armhf; done
+# mkdir -p /srv/chroots/stretch-armhf
+# for PKG in $(ls -1 .); do dpkg-deb -x $PKG /srv/chroots/stretch-armhf; done
+# cd ..
+# rm -rf tmp
+
+// Cross compile test binary
+$ docker cp thread.cpp happy_meninsky:/root
+# arm-linux-gnueabihf-g++ --sysroot=/srv/chroots/stretch-armhf -lboost_thread -lboost_system -o thread_test thread_test.cpp
+
+
+==============================
+BUILD ARM DOCKER IMAGE ON X86|
+==============================
+
+// Let's run a debian docker to get qemu-arm-static interpreter
+$ docker run -ti debian /bin/bash
+
+# export http_proxy=http://10.158.100.1:8080
+# export https_proxy=http://10.158.100.1:8080
+# apt-get update
+# apt-get install apt-get install qemu-user-static
+
+$ docker cp relaxed_khorana:/usr/bin/qemu-arm-static .
+
+// Configure the host machine to use the interpreter for arm binaries
+$ sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+$ sudo echo ':arm:M::\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:/usr/bin/qemu-arm-static:' > /proc/sys/fs/binfmt_misc/register  
+$ docker build . -t debian-cross-arm
+
+// Run the built image on the box
+$ docker save -o debian-cross-arm.tar debian-cross-arm
+# Move .tar to arm host
+$ docker load -i debian-cross-arm.tar
+$ docker run -ti --net=host debian-cross-arm /bin/bash
+
