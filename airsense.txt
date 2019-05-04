@@ -1,6 +1,10 @@
-credentials:
-airsense /// aiPh2eim
-debian /// debian
+access:
+
+airsense@192.168.1.78 /// aiPh2eim
+debian@192.168.1.132 /// debian
+debian@192.168.1.73 /// debian
+debian@192.168.1.154 /// debian
+debian@192.168.1.79 /// debian
 
 influxdb ruuvi measurements
 databases: ruuvi1-ruuvi5
