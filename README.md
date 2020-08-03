@@ -19,3 +19,8 @@ During the challenge, the LuxTurrim5G and μMEC devices are emulated with Raspbe
 The pre-configured sensor devices, Raspberry Pis and Nokia IoT Connectors, are set to read data from the sensors and to push it to an InfluxDB instance. For quick instructions on how to access InfluxDB see [How to access an InfluxDB](instructions/How_to_access_InfluxDB.md) under `instructions/` and [Pushing data from Raspberry Pi to InfluxDB](instructions/Push_data_from_RasPI_to_InfluxDB.md) for examples on how to push data from Raspberry Pi to the InfluxDB.
 
 In addition to Raspberry Pi, for which there are plenty of instructions publicly available, there are five Nokia IoT Connectors pre-configured to listen Ruuvi sensors tags and to push the data from them to the InfluxDB. See [airsense](instructions/airsense.txt) under `instructions/` for concise instructions on how to get started with those.
+
+
+## License
+
+This project is licensed under the BSD-3-Clause license - see the [LICENSE](https://github.com/nokia/IoT-Hackathon-sample-code/blob/master/LICENSE).
